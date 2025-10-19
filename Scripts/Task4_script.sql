@@ -1,0 +1,12 @@
+-- ========================================
+-- TAPSIRIQ 4: Ən çox gəlir gətirən 5 məhsul
+-- ========================================
+SELECT P.PRODUCT_ID,
+       SUM(P.UNIT_PRICE*OD.QUANTITY-OD.DISCOUNT) AS REVENUE
+FROM PRODUCTS P
+JOIN ORDER_DETAILS OD ON P.PRODUCT_ID=OD.PRODUCT_ID
+JOIN ORDERS O ON O.ORDER_ID=OD.ORDER_ID
+WHERE O.STATUS='Completed'
+GROUP BY P.PRODUCT_ID
+ORDER BY REVENUE DESC
+FETCH NEXT 5 ROWS ONLY;

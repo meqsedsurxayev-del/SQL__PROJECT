@@ -1,0 +1,14 @@
+-- ========================================
+-- TAPSIRIQ 2: Hər ay üzrə satış məbləği və sifariş sayı
+-- ========================================
+SELECT TO_CHAR(TO_DATE(O.ORDER_DATE, 'YYYY-MM-DD'), 'YYYY-MM') AS MONTH,
+       SUM(P.UNIT_PRICE * OD.QUANTITY - OD.DISCOUNT) AS TOTAL_SALES,
+       COUNT(O.ORDER_ID) AS ORDER_COUNT
+FROM PRODUCTS P
+JOIN ORDER_DETAILS OD
+  ON P.PRODUCT_ID = OD.PRODUCT_ID
+JOIN ORDERS O
+  ON OD.ORDER_ID = O.ORDER_ID
+WHERE O.STATUS = 'Completed'
+GROUP BY TO_CHAR(TO_DATE(O.ORDER_DATE, 'YYYY-MM-DD'), 'YYYY-MM')
+ORDER BY TO_CHAR(TO_DATE(O.ORDER_DATE, 'YYYY-MM-DD'), 'YYYY-MM');

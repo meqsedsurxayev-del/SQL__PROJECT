@@ -1,0 +1,12 @@
+-- ========================================
+-- TAPSIRIQ 13: Hər kateqoriyanın orta mənfəət faizi (%)
+-- ========================================
+SELECT P.CATEGORY,
+       ROUND(SUM((P.UNIT_PRICE * OD.QUANTITY - OD.DISCOUNT) - (P.COST_PRICE * OD.QUANTITY))
+       / SUM(P.UNIT_PRICE * OD.QUANTITY - OD.DISCOUNT) * 100, 2) AS AVG_PROFIT_PERCENT
+FROM ORDER_DETAILS OD
+JOIN PRODUCTS P ON OD.PRODUCT_ID = P.PRODUCT_ID
+JOIN ORDERS O ON OD.ORDER_ID = O.ORDER_ID
+WHERE O.STATUS = 'Completed'
+GROUP BY P.CATEGORY
+ORDER BY AVG_PROFIT_PERCENT;

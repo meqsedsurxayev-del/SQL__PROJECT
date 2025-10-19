@@ -1,0 +1,11 @@
+-- ========================================
+-- TAPSIRIQ 8: Ödəniş üsullarına görə satış bölgüsü
+-- ========================================
+SELECT O.PAYMENT_METHOD,
+       SUM(P.UNIT_PRICE * OD.QUANTITY - OD.DISCOUNT) AS TOTAL_SALES
+FROM ORDERS O
+JOIN ORDER_DETAILS OD ON O.ORDER_ID=OD.ORDER_ID
+JOIN PRODUCTS P ON P.PRODUCT_ID=OD.PRODUCT_ID
+WHERE O.STATUS='Completed'
+GROUP BY O.PAYMENT_METHOD
+ORDER BY TOTAL_SALES DESC;

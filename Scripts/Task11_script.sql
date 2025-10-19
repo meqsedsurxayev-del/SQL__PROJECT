@@ -1,0 +1,12 @@
+-- ========================================
+-- TAPSIRIQ 11: Ən çox qaytarılan məhsul və kateqoriya
+-- ========================================
+SELECT P.PRODUCT_ID,
+       P.CATEGORY,
+       COUNT(CASE WHEN O.STATUS='Returned' THEN 1 END) AS RETURNED_ORDERS
+FROM PRODUCTS P
+JOIN ORDER_DETAILS OD ON OD.PRODUCT_ID=P.PRODUCT_ID
+JOIN ORDERS O ON O.ORDER_ID=OD.ORDER_ID
+GROUP BY P.PRODUCT_ID, P.CATEGORY
+ORDER BY RETURNED_ORDERS DESC
+FETCH NEXT 5 ROWS ONLY;

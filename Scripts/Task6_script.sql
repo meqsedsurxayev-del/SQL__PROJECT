@@ -1,0 +1,12 @@
+-- ========================================
+-- TAPSIRIQ 6: Şəhərlər üzrə ümumi satış və sifariş sayı
+-- ========================================
+SELECT C.CITY,
+       SUM(P.UNIT_PRICE * OD.QUANTITY - OD.DISCOUNT) AS TOTAL_SALES
+FROM CUSTOMERS C
+JOIN ORDERS O ON C.CUSTOMER_ID = O.CUSTOMER_ID
+JOIN ORDER_DETAILS OD ON O.ORDER_ID = OD.ORDER_ID
+JOIN PRODUCTS P ON P.PRODUCT_ID = OD.PRODUCT_ID
+WHERE O.STATUS = 'Completed'
+GROUP BY C.CITY
+ORDER BY TOTAL_SALES;
